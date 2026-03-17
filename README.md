@@ -1,18 +1,13 @@
-## Getting Started
+História:
+Por enquanto, você é um herói lutando contra um filhote de cobra. Derrote ela ou morra tentando!
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Descrição:
+Crie o seu personagem e lute contra uma cobrinha. No começo de cada turno, compre cartas da pilha de compras até ficar com 5 na sua mão. Durante esse processo, se ficar sem cartas na pilha de compras, embaralhe a sua pilha de descarte e use-a como a sua nova pilha de compras.
+Com as cartas em mãos, use elas gastando suas 3 energias por turno e as descarte na pilha de descarte. Depois que estiver sem energia ou quiser passar sua vez, a cobrinha irá atacar! 
+Depois do ataque dela, será seu turno novamente. Assim, o jogo acaba quando os pontos de vida de um dos dois chegue a zero.
 
-## Folder Structure
+Compilar:
+javac -d bin $(find src -name "*.java")
 
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+Executar:
+java -cp bin App

@@ -10,7 +10,7 @@ public abstract class Entidade {
     }
     public void receberDano(int dano){
         escudo -= dano;
-        if (escudo < 0){
+        if (escudo < 0){    /*evitando negativos */
             vida += escudo;
             escudo = 0;
             if (vida < 0){
