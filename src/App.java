@@ -7,10 +7,10 @@ import java.util.List;
 public class App {
     public static void main(String[] args) throws Exception {
         System.out.println("Digite o nome do seu personagem:");
-        Scanner nome1 = new Scanner (System.in);
-        String nome = nome1.nextLine(); 
+        Scanner comandoScanner = new Scanner (System.in);
+        String nome = comandoScanner.nextLine(); 
         Heroi heroi1 = new Heroi(nome, 40, 5);  /*declarando heroi, inimigo e cartas */
-        Inimigo inimigo1 = new Inimigo("Cobrinha", 20, 5, 10);
+        Inimigo inimigo1 = new Cobrinha("Cobrinha", 20, 5, 10);
         CartaDano espada = new CartaDano("Espada de cobre", "causa 10 de dano ao inimigo / custa 2 energias",2);
         CartaEscudo escudo = new CartaEscudo("Escudo de madeira","concede 5 de escudo ao usuário / custa 1 energia", 1);
         int energia = 3, cartasNaMao = 0;
@@ -41,21 +41,23 @@ public class App {
             energia = 3;
             System.out.println("\n=-=\nStatus:\n" + heroi1.getNome() + " (" + heroi1.getVida() + "/40 de vida) (" + heroi1.getEscudo() + " de escudo)\nvs");
             System.out.printf("%s (%d/20 de vida) (%d de escudo)\n=-=\n\n", inimigo1.getNome(), inimigo1.getVida(), inimigo1.getEscudo());    /*status dos personagens */
+            System.out.println("=-=\n" + inimigo1.anuncio() + "\n=-=\n"); /*anunciando o ataque */
+            System.out.println("=-=\nSeu turno começou.\n=-=\n");
             if (heroi1.estarVivo() == false){    
                 System.out.println(heroi1.getNome() + " foi derrotado!\nVocê perdeu.");
                 break;
             }else{
                 while (energia > 0){        /*ação do heroi*/
-                    System.out.println("=-=\nSeu turno começou!\n=-=\n=-=\nDeck:\n");   /*mostrando, no terminal, as cartas na mao do jogador */
+                    System.out.println("=-=\nDeck:\n");   /*mostrando, no terminal, as cartas na mao do jogador */
                     for (int i = 0; i < cartasNaMao; i++) {
                         System.out.println((i + 1) + " -> " + maoJogador.get(i).getNome() + " / " + maoJogador.get(i).getDescricao());
                     }
                     System.out.println("=-=\n\n=-=\n" + energia + "/3 de Energia disponível\n=-=\n");   /*energias disponíveis */
                     System.out.println("=-=\nDigite o número de uma carta para usá-la ou digite 6 para passar o seu turno.\n=-=\n");    /*instrução*/
-                    Scanner scanner = new Scanner (System.in);
-                    int comando =  scanner.nextInt();
+                    comandoScanner = new Scanner (System.in);
+                    int comando =  comandoScanner.nextInt();
                     if (comando == 6){  /*passa a vez */
-                        System.out.println("=-=\n" + heroi1.getNome() + " passou a vez!\n=-=\n");
+                        System.out.println("\n=-=\n" + heroi1.getNome() + " passou a vez!\n=-=\n");
                         break;
                     }else if (comando > cartasNaMao) {  /*escolheu um espaço de carta que nao existe no momento */
                         System.out.println("\n=-=\nSem nenhuma carta na posição escolhida.\n=-=\n");
@@ -82,11 +84,11 @@ public class App {
                     }
                 }
 
-                System.out.println("=-=\nSeu turno acabou.\n\nCobrinha usou mordida venenosa!\n=-=");
+                System.out.println("=-=\nSeu turno acabou.\n=-=\n\n=-=\nCobrinha usou mordida venenosa!\n=-=");
                 inimigo1.atacar(heroi1); /* Ataque do inimigo */
                 heroi1.resetarEscudo();
-
             }
         }
+        comandoScanner.close();
     }
 }

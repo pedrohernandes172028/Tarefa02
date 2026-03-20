@@ -1,4 +1,4 @@
-public class Inimigo extends Entidade {
+public abstract class Inimigo extends Entidade {
     private int dano;
     public Inimigo(String nome, int vida, int escudo, int dano){
         super(nome, vida, escudo);
@@ -8,4 +8,5 @@ public class Inimigo extends Entidade {
     public void atacar(Heroi atacado){
         atacado.receberDano(this.dano);
     }
+    public abstract String anuncio();
 }
