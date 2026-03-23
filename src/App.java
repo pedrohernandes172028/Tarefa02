@@ -66,13 +66,15 @@ public class App {
                         if (energia < maoJogador.get(comando - 1).getCusto()){      /*verificando se tem energia suficiente */
                             System.out.println("\n=-=\nSem energia para realizar esta ação.\n=-=\n");
                         }else{
-                        energia -= maoJogador.get(comando - 1).usar(inimigo1);  /*usando a carta e gastando a energia */
+                        maoJogador.get(comando - 1).usar(inimigo1);  /*usando a carta e gastando a energia */
+                        energia -= maoJogador.get(comando - 1).getCusto();
                         cartasNaMao--;
                         pilhaDescarte.push(maoJogador.remove(comando - 1)); /*descartando a carta usada */
                         }
 
                     }else{
-                        energia -= maoJogador.get(comando - 1).usar(heroi1);
+                        maoJogador.get(comando - 1).usar(heroi1);
+                        energia -= maoJogador.get(comando - 1).getCusto();
                         cartasNaMao--;
                         pilhaDescarte.push(maoJogador.remove(comando - 1));
                     }

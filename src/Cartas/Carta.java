@@ -2,11 +2,13 @@ public abstract class Carta {
     protected String nome;
     protected String descricao;
     protected int custo;
+    protected int tipo; /*serve para saber se a carta possui um efeito de ataque (0), um efeito de suporte (1), ou carta de buff (2); orienta o comportamento dos inimigos */
 
-    public Carta(String nome, String descricao, int custo){
+    public Carta(String nome, String descricao, int custo, int tipo){
         this.nome = nome;
         this.descricao = descricao;
         this.custo = custo;
+        this.tipo = tipo;
     }
 
     public String getNome(){
@@ -19,5 +21,5 @@ public abstract class Carta {
         return this.custo;
     }
     
-    public abstract int usar(Entidade personagem);
+    public abstract void usar(Entidade alvo);
 }
