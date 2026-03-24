@@ -1,10 +1,15 @@
+package Entidades;
+import Cartas.Carta;
 import java.util.ArrayList;
+
+import Efeitos.Efeito;
 public abstract class Entidade {
-    protected String nome;
-    protected int vida;
-    protected int escudo;
-    protected ArrayList<Efeito> efeitos;
-    protected int velocidade;
+    private String nome;
+    private int vida;
+    private int escudo;
+    private ArrayList<Efeito> efeitos;
+    private int velocidade;
+    private Carta[] deckCartas;
 
     public Entidade(String nome, int vida, int escudo, int velocidade){
         this.nome = nome;
@@ -42,12 +47,23 @@ public abstract class Entidade {
     public int getEscudo(){ 
         return this.escudo;
     }
+    public int getVelocidade(){
+        return this.velocidade;
+    }
+
+    public Carta[] getDeckCartas(){
+        return deckCartas;
+    }
+    public ArrayList<Efeito> getEfeitos(){
+        return efeitos;
+    }
+
 
     public void aplicarEfeito(Efeito novo){
         int achou = 0;
         for (Efeito i : efeitos){
-            if (novo.nome.equals(i.nome)){
-                i.acumulo += novo.acumulo;
+            if (novo.getNome().equals(i.getNome())){
+                i.alterarAcumulo(novo.getAcumulo());
                 achou = 1;
                 break;
             }
@@ -55,6 +71,9 @@ public abstract class Entidade {
         if (achou == 0){
             efeitos.add(novo);
         }
+    }
+    public String getStatus(){
+        return getNome() + " (" + getVida() + "/40 de vida) (" + getEscudo() + " de escudo)";
     }
 
 }

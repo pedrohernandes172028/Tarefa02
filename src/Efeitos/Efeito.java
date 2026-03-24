@@ -1,17 +1,35 @@
-public abstract class Efeito {
-    protected String nome;
-    protected Entidade dono;
-    protected int acumulo;
-    protected int[] momento; /* momentos em que o Efeito é acionado */
+package Efeitos;
+import Entidades.Entidade;
 
-    public Efeito(String nome, Entidade dono, int acumulo, int[] momento){
+public abstract class Efeito {
+    private String nome;
+    private Entidade dono;
+    private int acumulo;
+    private int[] momentos; /* momentos em que o Efeito é acionado */
+
+    public Efeito(String nome, Entidade dono, int acumulo, int[] momentos){
         this.nome = nome;
         this.dono = dono;
         this.acumulo = acumulo;
-        this.momento = momento;
+        this.momentos = momentos;
     }
     public String getString(){
         return dono + " possui " + acumulo + " de " + nome + "!";
+    }
+    public String getNome(){
+        return nome;
+    }
+    public int getAcumulo(){
+        return acumulo;
+    }
+    public Entidade getDono(){
+        return dono;
+    }
+    public int[] getMomentos(){
+        return momentos;
+    }
+    public void alterarAcumulo(int valor){
+        acumulo += valor;
     }
     public abstract void acionado();
 }

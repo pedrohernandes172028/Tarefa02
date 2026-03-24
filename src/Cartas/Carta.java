@@ -1,8 +1,11 @@
+package Cartas;
+import Entidades.Entidade;
+
 public abstract class Carta {
-    protected String nome;
-    protected String descricao;
-    protected int custo;
-    protected int tipo; /*serve para saber se a carta possui um efeito de ataque (0), um efeito de suporte (1), ou carta de buff (2); orienta o comportamento dos inimigos */
+    private String nome;
+    private String descricao;
+    private int custo;
+    private int tipo; /*serve para saber se a carta possui um efeito de dano (0), um efeito de escudo (1), etc*/
 
     public Carta(String nome, String descricao, int custo, int tipo){
         this.nome = nome;
@@ -20,6 +23,8 @@ public abstract class Carta {
     public int getCusto(){
         return this.custo;
     }
-    
+    public int getMomento(){
+        return this.tipo;
+    }
     public abstract void usar(Entidade alvo);
 }

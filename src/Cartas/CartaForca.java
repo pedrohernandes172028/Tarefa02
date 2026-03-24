@@ -1,3 +1,7 @@
+package Cartas;
+import Efeitos.Forca;
+import Entidades.Entidade;
+
 public class CartaForca extends Carta{
     
     public CartaForca(String nome, String descricao, int custo){
@@ -5,6 +9,6 @@ public class CartaForca extends Carta{
     }
 
     public void usar(Entidade alvo){
-        alvo.aplicarEfeito(new Forca(alvo, custo));
+        alvo.aplicarEfeito(new Forca(alvo, getCusto()));
     }
 }
