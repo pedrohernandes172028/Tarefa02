@@ -1,9 +1,8 @@
 package Entidades;
 import java.util.List;
-
 import Cartas.Carta;
 public abstract class Inimigo extends Entidade {
-    private Carta[] acoes;
+    protected Carta[] acoes;  /*todas as açoes que o inimigo pode fazer, acoes é definida apenas pela classe que herda Inimigo */
     public Inimigo(String nome, int vida, int escudo, int velocidade){
         super(nome, vida, escudo, velocidade);
         
@@ -12,29 +11,14 @@ public abstract class Inimigo extends Entidade {
         return acoes;
     }
 
-    public Entidade realizarAcao(Heroi heroi, List<Inimigo> inimigos, int indice){ /*comeco de uma estratégia dos inimigos */
-        Entidade afetada;
-        if (acoes[indice].getMomento() == 0){   /*afeta o heroi */
-            afetada = heroi;   
-        }else if (acoes[indice].getMomento() == 1){ /* carta de buff */
-            afetada = inimigos.get(0);     /*afeta o inimigo que estiver com mais vida*/
-            for (int i = 1; i < inimigos.size(); i++){
-                if (inimigos.get(i - 1).getVida() < inimigos.get(i).getVida()){
-                    afetada = inimigos.get(i);
-                }
-            }
-        }else{  /*carta de defesa */
-            afetada = inimigos.get(0);     /*afeta o inimigo que estiver com menos vida*/
-            for (int i = 1; i < inimigos.size(); i++){
-                if (inimigos.get(i - 1).getVida() > inimigos.get(i - 1).getVida()){
-                    afetada = inimigos.get(i - 1);
-                }
-            }
-        }
-        acoes[indice].usar(afetada);
-        return afetada;
-        
+    public boolean realizarAcao(Heroi heroi, List<Inimigo> inimigos){ /*vai aplicar a escolha feita pela função anuncio*/
+        System.out.println(getNome() + " usou " + acoes[getAcaoEscolhida()].getNome() + ". ");
+        acoes[getAcaoEscolhida()].usar(getAlvo());
+        return false;
+    }
+    public Carta cartaUtilizada(int posicao){
+        return acoes[posicao];
     }
 
-    public abstract String anuncio();
+    public abstract void anuncio(Heroi heroi, List<Inimigo> inimigos);   /*vai definir acaoEscolhida, que é um indice de açoes e o alvo, cada tipo de inimigo possui uma estratégia*/
 }

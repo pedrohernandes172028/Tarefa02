@@ -1,59 +1,73 @@
 package Entidades;
+import java.util.Scanner;
 
-import java.util.Collections;
+import Cartas.Carta;
+
 import java.util.List;
-import java.util.Stack;
-import Cartas.*;
+
+
 
 public class Heroi extends Entidade{
-    private List<Carta> cartasNaMao;
-    private Stack<Carta> deckCompra = new Stack<>();
-    private Stack<Carta> deckDescarte = new Stack<>();
+    private Baralho baralho;
+    private int energia;
 
     public Heroi(String nome, int vida, int escudo, int velocidade){
         super(nome, vida, escudo, velocidade);
-        this.deckCompra = iniciarDeck();
-        this.deckDescarte = new Stack<>();
-        this.cartasNaMao = new Stack<>();
+        this.baralho = new Baralho();
+        this.energia = 0;
     }
 
     public void resetarEscudo(){
-        ganharEscudo(-getEscudo()); /*escudo vai ficar igual a 0 */
-    }
-    public List<Carta> getCartasNaMao(){
-        return cartasNaMao;
-    }
-    public int getnCartasNaMao(){
-        return this.cartasNaMao.size();
-    }
-    private Stack<Carta> iniciarDeck(){
-        Stack<Carta> compra = new Stack<>();
-        CartaDano espada = new CartaDano("Espada de cobre", "causa 10 de dano ao inimigo / custa 2 energias",2);
-        CartaEscudo escudo = new CartaEscudo("Escudo de madeira","concede 5 de escudo ao usuário / custa 1 energia", 1);
-        CartaForca bomba = new CartaForca("Esteróide", "concede +1 de força / custa 1 energia", 1);
-        CartaVeneno dardo = new CartaVeneno("dardo envenenado", "conde +1 de veneno / custa 1 energia", 1);
-        for (int i = 0; i < 2; i++){    /*coloquei 8 cartas na pilha de compras, 2 de cada tipo*/
-            compra.push(espada);
-            compra.push(escudo);
-            compra.push(bomba);
-            compra.push(dardo);
+        if (getEscudo() != 0){
+            System.out.println(getNome() + " perdeu todo o seu escudo!\n");
+            ganharEscudo(-getEscudo()); /*escudo vai ficar igual a 0 */
         }
-        Collections.shuffle(compra);  /*embaralhando */
-        return compra;
     }
-    public void comprarCartas(){
-            while (cartasNaMao.size() < 5){    /*comprando cartas*/
-                if (deckCompra.isEmpty()){
-                    Collections.shuffle(deckDescarte);
-                    deckCompra.addAll(deckDescarte);
-                    deckDescarte.clear();
-                }
-                cartasNaMao.add(deckCompra.pop());
-            }
+    public Baralho getBaralho(){
+        return baralho;
     }
-    public void cartaUsada(int comando){
-        deckDescarte.push(cartasNaMao.remove(comando - 1));
+    public void resetarenergia(){
+        energia = 3;
+    }
+    public Carta cartaUtilizada(int posicao){
+        return baralho.getCartasNaMao().get(posicao);
     }
 
+    public boolean realizarAcao(Heroi heroi, List<Inimigo> inimigos){   /*realiza apenas uma ação */
+        Scanner comandoScanner;
+        System.out.println("=-=\nDeck:\n");   /*mostrando, no terminal, as cartas na mao do jogador */
+        for (int i = 0; i < baralho.getnCartasNaMao(); i++) {
+            System.out.println((i + 1) + " -> " + baralho.getCartasNaMao().get(i).getNome() + " / " + baralho.getCartasNaMao().get(i).getDescricao());
+        }
+        System.out.println("=-=\n\n=-=\n" + energia + "/3 de Energia disponível\n=-=\n");   /*energias disponíveis */
+        System.out.println("=-=\nDigite o número de uma carta para usá-la ou digite 6 para passar o seu turno.\n=-=\n");    /*instrução*/
+        comandoScanner = new Scanner (System.in);
+        int comando =  comandoScanner.nextInt();
+        comandoScanner.close();
+        if (comando == 6){  /*passa a vez */
+            System.out.println("\n=-=\n" + heroi.getNome() + " passou a vez!\n=-=\n");
+            return false;
+        }else if (comando > baralho.getnCartasNaMao()) {  /*escolheu um espaço de carta que nao existe no momento */
+            System.out.println("\n=-=\nSem nenhuma carta na posição escolhida.\n=-=\n");
+        }else if (baralho.getCartasNaMao().get(comando - 1).getCusto() > energia){
+            System.out.println("\n=-=\nSem energia para realizar está ação\n=-=\n");
+        }else{
+            System.out.println("Como alvo da sua ação, digite 0 para escolher você ou digite um dos números dos inimigos a seguir: \n");
+            for (int i = 1; i < inimigos.size() + 1; i++){
+                System.out.println(i + " -> " + inimigos.get(i - 1).getNome() + "\n");
+            }
+            comandoScanner = new Scanner (System.in);
+            int alvo =  comandoScanner.nextInt();
+            System.out.println(getNome() + " usou " + baralho.getCartasNaMao().get(comando - 1).getNome() + ". ");
+            baralho.getCartasNaMao().get(comando - 1).usar(inimigos.get(alvo));
+            baralho.cartaUsada(comando);
+        }
+        if (energia > 0){
+            return true;
+        }else{
+            System.out.println(heroi.getNome() + " está sem energia! Seu turno acabou.");
+            return false;
+        }
+    }
 
 }

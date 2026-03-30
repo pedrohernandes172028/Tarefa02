@@ -1,6 +1,7 @@
 package Entidades;
-import Cartas.Carta;
 import java.util.ArrayList;
+import java.util.List;
+import Cartas.Carta;
 
 import Efeitos.Efeito;
 public abstract class Entidade {
@@ -9,7 +10,8 @@ public abstract class Entidade {
     private int escudo;
     private ArrayList<Efeito> efeitos;
     private int velocidade;
-    private Carta[] deckCartas;
+    private int acaoEscolhida;  /*a posicao da acao em acoes que o inimigo vai fazer ou a posicao da acao em cartasNaMao que o heroi vai fazer*/
+    private Entidade alvo;  /*o alvo da sua ação */
 
     public Entidade(String nome, int vida, int escudo, int velocidade){
         this.nome = nome;
@@ -50,12 +52,20 @@ public abstract class Entidade {
     public int getVelocidade(){
         return this.velocidade;
     }
-
-    public Carta[] getDeckCartas(){
-        return deckCartas;
-    }
     public ArrayList<Efeito> getEfeitos(){
         return efeitos;
+    }
+    public int getAcaoEscolhida(){
+        return acaoEscolhida;
+    }
+    public Entidade getAlvo(){
+        return alvo;
+    }
+    public void mudarAlvo(Entidade alvo){
+        this.alvo = alvo;
+    }
+    public void mudarEscolha(int escolha){
+        this.acaoEscolhida = escolha;
     }
 
 
@@ -75,5 +85,7 @@ public abstract class Entidade {
     public String getStatus(){
         return getNome() + " (" + getVida() + "/40 de vida) (" + getEscudo() + " de escudo)";
     }
+    public abstract boolean realizarAcao(Heroi heroi, List<Inimigo> inimigos);
+    public abstract Carta cartaUtilizada(int posicao);
 
 }
